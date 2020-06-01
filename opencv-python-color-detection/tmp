@@ -1,0 +1,3 @@
+mask8 = cv2.inRange(image8, lower, upper)
+output8 = cv2.bitwise_and(image8, image8, mask8 = mask8)
+
