@@ -43,7 +43,7 @@ def check_duplicated_elements(source):
     print duplicated
 
 reduced_len = 4876
-filename = "reduced_data.bin"
+filename = "../reduced_data.bin"
 f = open(filename, "rb")
 dpot_L1_str=f.read(reduced_len*8)
 #dpot_L1=zfpy._decompress(dpot_L1_compressed, 4, [2496111], tolerance=0.01)

@@ -524,7 +524,7 @@ def high_potential_area(dpot,R,Z,thre):
     print "High potential analysis time = ", end - start
     return area
 
-def fully_refine(deci_ratio,timestep,tag,time_tail,thre):
+def fully_refine(deci_ratio,timestep,tag,time_tail):
     a = time.time()
     try:
 	    cluster = rados.Rados(conffile='')
@@ -702,7 +702,7 @@ def plot(data,r,z,filename):
             spine.set_visible(False)
     plt.savefig(filename, format='png')
 
-def partial_refine(deci_ratio,timestep,psnr,ctag,time_tail,thre, peak_noise, no_noise, time_interval):
+def partial_refine(deci_ratio,timestep,psnr,ctag,time_tail, peak_noise, no_noise, time_interval):
 #def partial_refine(deci_ratio,timestep,psnr,ctag,update_interval,thre, peak_noise, no_noise, time_interval,original_data, original_r,original_z,delta,delta_r,delta_z):
     try:
         cluster = rados.Rados(conffile='')
@@ -1015,7 +1015,7 @@ def psnr_c(original_data, base, leveldata_len, deci_ratio, level_id):
     #print "psnr=",psnr
     return psnr
  
-def work_flow(deci_ratio, time_interval, psnr,high_potential_threshold,peak_noise, no_noise):
+def work_flow(deci_ratio, time_interval, psnr,peak_noise, no_noise):
     tag = 0
     timestep = 0
     last_tag = 0
@@ -1027,8 +1027,7 @@ def work_flow(deci_ratio, time_interval, psnr,high_potential_threshold,peak_nois
         start=time.time()
         print "time = %d\n" %(i)
         #if int(i/time_interval) %(update_interval-1) == 1 and i !=time_interval and i !=2385:
-        if i > 3000:
-        #if i == t_tail_whole+time_interval:
+        if i == t_tail_whole+time_interval:
             print "start updating prediction"
             a=time.time()
             fname="sample_"+str(tag)+".npz"
@@ -1059,7 +1058,7 @@ def work_flow(deci_ratio, time_interval, psnr,high_potential_threshold,peak_nois
             print "fully refinement\n"
             timestep = i
             print timestep
-            fully_refine(deci_ratio,i, tag, t_tail,high_potential_threshold)
+            fully_refine(deci_ratio,i, tag, t_tail)
         else:
             print i,  time_interval
             timestep = i-1200*tag
@@ -1067,7 +1066,7 @@ def work_flow(deci_ratio, time_interval, psnr,high_potential_threshold,peak_nois
             print "timestep=",timestep
             print "partial refinement\n"
             print timestep
-            partial_refine(deci_ratio, timestep, psnr, tag,t_tail,high_potential_threshold, peak_noise, no_noise, time_interval)         
+            partial_refine(deci_ratio, timestep, psnr, tag,t_tail, peak_noise, no_noise, time_interval)         
         end = time.time()
          
         #timestep += time_interval
@@ -1082,47 +1081,5 @@ time_interval = 25
 frequency_cut_off = 0.5
 peak_noise =60
 no_noise = 120
-high_pressure_thre = 40
-work_flow(deci_ratio,time_interval,"false", high_pressure_thre, peak_noise, no_noise)
-#work_flow(deci_ratio,time_interval,"false",49 , high_pressure_thre, peak_noise, no_noise)
 
-#partial_refine(deci_ratio,50,"false",1,49, high_pressure_thre, 60, 120, 25)
-
-#start=time.time()
-#try:
-#   cluster = rados.Rados(conffile='')
-#except TypeError as e:
-#    print 'Argument validation error: ', e
-#    raise e
-#
-#try:
-#   cluster.connect()
-#except Exception as e:
-#   print "connection error: ", e
-#   raise e
-#
-#if not cluster.pool_exists('tier2_pool'):
-#   raise RuntimeError('No data pool exists')
-#ioctx_2 = cluster.open_ioctx('tier2_pool')
-#delta_L0_L1_str = ioctx_2.read("delta_L0_L1_o",ioctx_2.stat("delta_L0_L1_o")[0],0)
-#delta_r_L0_L1_str= ioctx_2.read("delta_r_L0_L1_o",ioctx_2.stat("delta_r_L0_L1_o")[0],0)
-#delta_z_L0_L1_str = ioctx_2.read("delta_z_L0_L1_o",ioctx_2.stat("delta_z_L0_L1_o")[0],0)
-#delta_L0_L1 = struct.unpack(str(int(ioctx_2.stat("delta_L0_L1_o")[0]/8))+'d',delta_L0_L1_str)
-#delta_r_L0_L1 = struct.unpack(str(int(ioctx_2.stat("delta_r_L0_L1_o")[0]/8))+'d',delta_r_L0_L1_str)
-#delta_z_L0_L1 = struct.unpack(str(int(ioctx_2.stat("delta_z_L0_L1_o")[0]/8))+'d',delta_z_L0_L1_str)
-#ioctx_2.close()
-#cluster.shutdown()
-#finer_len = 4992221
-#filename = "full_data.bin"
-#f = open(filename, "rb")
-#dpot_str = f.read(finer_len*8)
-#r_str = f.read(finer_len*8)
-#z_str = f.read(finer_len*8)
-#f.close()
-#number_of_original_elements = str(finer_len)
-#dpot=struct.unpack(number_of_original_elements+'d',dpot_str)
-#r=struct.unpack(number_of_original_elements+'d',r_str)
-#z=struct.unpack(number_of_original_elements+'d',z_str)
-#partial_refine(deci_ratio,75,"false",1,49, high_pressure_thre, 60, 120, 25,dpot,r,z,delta_L0_L1,delta_r_L0_L1,delta_z_L0_L1)
-#end = time.time()
-#print "One time=",end-start
+work_flow(deci_ratio,time_interval,"false", peak_noise, no_noise)

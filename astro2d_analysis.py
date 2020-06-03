@@ -197,7 +197,7 @@ for i in range(initial_timestep, 1201, time_interval):
 
     start = time.time()
     plot_name = fname_head + ".png"
-    #plot(data,data_r,data_z,plot_name) 
+    plot(data,data_r,data_z,plot_name) 
     score = SSIM("astro2d/test2/original.png", plot_name)
     dice_co = calculate_dice("astro2d/test2/original.png", plot_name)
     print "dice_co",dice_co
