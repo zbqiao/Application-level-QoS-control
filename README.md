@@ -3,7 +3,7 @@ This repository contains materials to reproduce the results for SC 2020 paper "T
 
 ## Prerequisite
 
-1. We evaluate our scheme using CEPH file system. So firstly you need to set up the cluster based on CEPH. We use [chameleon]([https://www.chameleoncloud.org/](https://www.chameleoncloud.org/)) as our testbed. We configure our shared storage system with two storage nodes. Please refer to the [CEPH documents]([https://docs.ceph.com/docs/master/install/ceph-deploy/](https://docs.ceph.com/docs/master/install/ceph-deploy/)) to do so. 
+1. We evaluate our scheme using CEPH file system. So firstly you need to set up the cluster based on CEPH. We use [chameleon](https://www.chameleoncloud.org/) as our testbed. We configure our shared storage system with two storage nodes. Please refer to the [CEPH documents]([https://docs.ceph.com/docs/master/install/ceph-deploy/](https://docs.ceph.com/docs/master/install/ceph-deploy/)) to do so. 
 2. Since we utilize the ADIOS to refactor and write data to CEPH file system. Once you set up the cluster, you need to build and install the ADIOS in each client node. Please refer to the [ADIOS documentation]([https://www.olcf.ornl.gov/center-projects/adios/](https://www.olcf.ornl.gov/center-projects/adios/)). 
 
 ## How to use the code
