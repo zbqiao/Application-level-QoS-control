@@ -1,4 +1,4 @@
-# Application-level-QoS-control
+# Application level QoS control
 This repository contains materials to reproduce the results for SC 2020 paper "Taming I/O Variation on QoS-less HPC Storage: What Can Applications do?"
 
 ## Prerequisite
