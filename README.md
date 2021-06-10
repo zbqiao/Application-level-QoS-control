@@ -18,3 +18,4 @@ This repository contains materials to reproduce the results for SC 2020 paper "T
 ## Note
 
 Remember to set the correct parameters in the scripts such as decimation ratio, analysis time interval, reduced data length to make sure they can be ran correctly
+# bitplane
